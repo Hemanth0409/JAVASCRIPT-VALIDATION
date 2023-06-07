@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms Validation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<style>
+    .error {
+        color: brown;
+    }
+</style>
+
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                FORM VALIDATION
+            </a>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+
+        <form class="g-3 justify-content-center" id="myForm" action="#" method="get">
+            <div class="col-md-6">
+                <div class="form-outline">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input type="text" name="name" id="name" class="form-control" required>
+
+                </div>
+            </div>
+            <div class="col-md-6 mt-3">
+                <label for="dob" class="form-label">Date Of Birth</label>
+                <input type="date" name="dob" id="dob" class="form-control">
+            </div>
+            <div class="col-md-6 mt-3">
+                <label for="gender" class="form-label">Gender</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gender" id="male" value="male">
+                    <label class="form-check-label" for="male">
+                        Male
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+                    <label class="form-check-label" for="female">
+                        Female
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-md-6 mt-3">
+                <label for="cnumber" class="form-label">Contact number</label>
+                <input type="tel" name="cnumber" id="cnumber" class="form-control">
+
+            </div>
+            <div class="col-md-6 mt-3">
+                <label for="mail" class="form-label">Email</label>
+                <input type="email" name="mail" id="mail" class="form-control">
+
+            </div>
+            <div class="col-md-6 mt-3">
+                <label for="State" class="form-label">IT Frames</label>
+                <select class="form-select" name="roll" id="roll">
+                    <option disabled selected>---Select---</option>
+                    <option>UI/UX</option>
+                    <option>Front-end</option>
+                    <option>Back-End</option>
+                    <option>Full-Stack</option>
+                </select>
+            </div>
+
+            <div class="col-md-6 mt-3">
+                <input type="file" name="file" id="file" accept="image/*" onchange="previewImage();">
+
+                <img alt="" id="preview" width="100px" height="100px"> </div>
+            <div class="col-md-6 mt-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="agree" id="agree">
+                    <label class="form-check-label" for="agree">
+                        I agree to the terms and conditions
+                    </label>
+                </div>
+            </div>
+            <div class="col-12 mt-4">
+                <button class="btn btn-primary" name="btn" type="submit" onclick="validateForm()">Submit form(jquery)</button>
+
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    <script>
+        function previewImage() {
+            var file = document.getElementById("file").files
+            if (file.length > 0) {
+                var fileReader = new FileReader()
+
+                fileReader.onload = function(event) {
+                    document.getElementById("preview").setAttribute("src", event.target.result)
+                }
+
+                fileReader.readAsDataURL(file[0])
+            }
+        }
+        $(document).ready(function() {
+            $("#myForm").validate({
+                rules: {
+                    name: {
+                        required: true,
+                        minlength: 2,
+                        maxlength: 15,
+                        pattern: /^[a-zA-Z]+$/
+                    },
+                    dob: {
+                        required: true,
+                    },
+                    cnumber: {
+                        required: true,
+                        pattern: /^\d{10}$/
+                    },
+                    mail: {
+                        required: true,
+                        email: true,
+                    },
+                    roll: {
+                        required: true,
+                    },
+                    gender: {
+                        required: true,
+                    },
+                    agree: {
+                        required: true,
+                    }
+                },
+                messages: {
+                    name: {
+                        required: "Enter Your Name",
+                        minlength: "At least 2 characters!",
+                        maxlength: "Maximum 15 characters!",
+                        pattern: "Name should contain only alphabets!"
+                    },
+                    dob: {
+                        required: "Enter your date of birth"
+                    },
+                    cnumber: {
+                        required: "Enter your mobile number",
+                        pattern: "Only 10 digit numbers are allowed",
+                    },
+                    mail: {
+                        required: "Enter Your Mail",
+                        email: "Enter a valid Email"
+                    },
+                    roll: {
+                        required: "Select a field"
+                    },
+                    gender: {
+                        required: "Select your gender"
+                    },
+                    agree: {
+                        required: "You must agree to the terms and conditions"
+                    }
+                }
+            })
+        })
+
+        function validateForm() {
+            if ($("#myForm").valid()) {
+                const name = document.getElementById("name").value;
+                const dob = document.getElementById("dob").value;
+                const cnumber = document.getElementById("cnumber").value;
+                const mail = document.getElementById("mail").value;
+                const roll = document.getElementById("roll").value;
+                const gender = document.querySelector('input[name="gender"]:checked').value;
+                const agree = document.getElementById("agree").checked;
+
+
+
+                document.write("Name: " + name + "<br>");
+                document.write("Date Of Birth: " + dob + "<br>");
+                document.write("Contact Number: " + cnumber + "<br>");
+                document.write("Email: " + mail + "<br>");
+                document.write("Roll: " + roll + "<br>");
+                document.write("Gender: " + gender + "<br>");
+
+                document.write("current age:")
+                var d1 = new Date(dob);
+                var diff = Date.now() - d1.getTime();
+                var daydiff = (diff / 31536000000).toFixed(0);
+                document.write(daydiff);
+
+                document.write("Agreed to terms and conditions: " + agree + "<br>");
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
