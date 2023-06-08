@@ -81,8 +81,11 @@
             </div>
             <div class="col-md-6 mt-3">
                 <label for="getTime" class="form-label">Joining Time</label>
-                <input type="time" name="time" id="time" class="form-control">
+                <input type="time" name="time" id="time" class="form-control" onchange="calculateLogintime()">
 
+                <div class="col-md-12">
+                    <p id="intime" class="mt-5 text-info"></p>
+                </div>
 
             </div>
             <div class="col-md-6 mt-5">
@@ -213,6 +216,24 @@
                 }
             })
         })
+
+        function calculateLogintime() {
+            var time = document.getElementById("time").value;
+
+            if (time) {
+                var currentTime = new Date();
+                var logintime = new Date(currentTime.toDateString() + " " + time);
+                var intime = (currentTime - logintime) / (1000 * 60 * 60);
+
+                if (intime >= 0) {
+                    document.getElementById("intime").textContent = "You logged time: " + intime.toFixed(2) + " hours.";
+                } else {
+                    document.getElementById("intime").textContent = "Invalid time.";
+                }
+            } else {
+                document.getElementById("intime").textContent = "";
+            }
+        }
 
         function validateForm() {
             if ($("#myForm").valid()) {
