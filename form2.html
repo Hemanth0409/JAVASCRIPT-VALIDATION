@@ -3,15 +3,35 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form validation js</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Document</title>
 
 </head>
 
 <body>
+    <div class="col-md-6 mt-3">
+        <label for="getTime" class="form-label">Joining Time</label>
+        <input type="time" name="time" id="time" class="form-control" onchange="calculateExperience()">
+        <small id="experienceMessage" class="form-text  text-danger"></small>
 
+    </div>
+    <script>
+        function calculateExperience() {
+            const joining_date = document.getElementById('joining_date').value;
+            const startDate = new Date(startDateInput);
+            const today1 = new Date();
+            const yearsDiff = today1.getFullYear() - startDate.getFullYear();
+            const monthsDiff = today1.getMonth() - startDate.getMonth();
+            let totalMonths = yearsDiff * 12 + monthsDiff;
+            if (today1.getDate() < startDate.getDate()) {
+                totalMonths--;
+            }
+            const years = Math.floor(totalMonths / 12);
+            const months = totalMonths % 12;
+            experienceMessage.textContent = "Experience :" + years + "years" + months + "months"
+        }
+    </script>
 </body>
+
 
 </html>
